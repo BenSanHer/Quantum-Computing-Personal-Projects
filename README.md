@@ -14,12 +14,13 @@ Each project is approached from first principles, with an emphasis on:
 - Documenting progress in a clear and organized manner
 
 ## Current Focus
-I am currently studying **Variational Quantum Algorithms (VQAs)**, with a particular focus on:
+I am currently studying **Annealing**, with a particular focus on:
 
-- **Variational Quantum Eigensolver (VQE)**
-- **Quantum Approximate Optimization Algorithm (QAOA)**
+- **OceanSDK**
+- **Simulated Annealing**
+- **Quantum Annealing**
 
-The objective is to develop a deep and practical understanding of these algorithms, including their theoretical foundations, implementation details, and real-world applicability.
+The objective is to develop a new key understanding of the Quantum Annealing Framework for working in Quantum Computing models
 
 ## Teaching Context
 This work is also aligned with my role as a Teaching Assistant, with the intention of:
@@ -30,7 +31,7 @@ This work is also aligned with my role as a Teaching Assistant, with the intenti
 ## Structure
 Each project in this repository typically includes:
 - **Notes**: Theoretical development and conceptual understanding (in Spanish)
-- **Experiments**: Jupyter notebooks with implementations and simulations
+- **Experiments**: Jupyter notebooks with implementations and simulations. For Annealing, I decided to merge the notes with the experiments
 - **Logs**: A record of progress, insights, and challenges
 - **References**: Sources used throughout the study process
 
