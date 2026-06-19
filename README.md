@@ -36,3 +36,12 @@ Each project in this repository typically includes:
 
 ## Contact
 If you are interested in any of the projects or would like to discuss related topics, feel free to reach out.
+
+## License
+
+This repository uses a dual-license structure:
+
+- Source code and executable examples are licensed under the MIT License. See [LICENSE](LICENSE).
+- Educational content, including explanatory notes, Markdown cells, diagrams, figures, and non-code instructional material, is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). See [LICENSE-CONTENT.md](LICENSE-CONTENT.md).
+
+Unless otherwise stated, third-party materials remain under their original licenses and should be cited accordingly.

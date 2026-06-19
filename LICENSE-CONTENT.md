@@ -29,3 +29,9 @@ If you adapt the material, please indicate that changes were made.
 ## Code exception
 
 Source code and executable examples in this repository are licensed separately under the MIT License, unless otherwise stated.
+
+## Third-party materials
+
+This license applies only to original educational content created for this repository.
+
+Third-party materials, quotations, figures, diagrams, documentation excerpts, datasets, or external references remain under their original licenses and terms. They must be cited and used according to their respective licenses.
