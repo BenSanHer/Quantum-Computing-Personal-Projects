@@ -14,13 +14,9 @@ Each project is approached from first principles, with an emphasis on:
 - Documenting progress in a clear and organized manner
 
 ## Current Focus
-I am currently studying **Annealing**, with a particular focus on:
+I am currently studying **Physical Hamiltonians and Molecular Simulations with VQE**
 
-- **OceanSDK**
-- **Simulated Annealing**
-- **Quantum Annealing**
-
-The objective is to develop a new key understanding of the Quantum Annealing Framework for working in Quantum Computing models
+The objective is to develop a new key understanding of the Molecular Simulations Framework for working in Quantum Computing models
 
 ## Teaching Context
 This work is also aligned with my role as a Teaching Assistant, with the intention of:
