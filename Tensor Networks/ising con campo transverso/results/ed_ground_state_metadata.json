@@ -1,0 +1,112 @@
+[
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 0.2,
+    "energy": -19.220606611728492,
+    "state_norm": 1.0,
+    "residual_norm": 4.3679481078056326e-09,
+    "mean_X": 0.1106099746372697,
+    "mean_ZZ": -0.9883245638515602,
+    "runtime_seconds": 28.156321399961598
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 0.4,
+    "energy": -19.89004661090857,
+    "state_norm": 1.0,
+    "residual_norm": 1.6805656675613332e-08,
+    "mean_X": 0.22514334199849212,
+    "mean_ZZ": -0.9520473618379298,
+    "runtime_seconds": 16.42131220002193
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 0.6,
+    "energy": -21.0342537238988,
+    "state_norm": 0.9999999999999999,
+    "residual_norm": 9.691768887652383e-10,
+    "mean_X": 0.34923815864259233,
+    "mean_ZZ": -0.8864945168519914,
+    "runtime_seconds": 19.626847499981523
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 0.8,
+    "energy": -22.715507607115985,
+    "state_norm": 1.0,
+    "residual_norm": 3.046047854175373e-09,
+    "mean_X": 0.49895484349895575,
+    "mean_ZZ": -0.775380532164879,
+    "runtime_seconds": 13.865702099981718
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 1.0,
+    "energy": -25.107797111623782,
+    "state_norm": 1.0,
+    "residual_norm": 2.331102807695425e-09,
+    "mean_X": 0.6949425939175791,
+    "mean_ZZ": -0.5899444859616942,
+    "runtime_seconds": 13.629849400022067
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 1.2,
+    "energy": -28.143472523426297,
+    "state_norm": 1.0,
+    "residual_norm": 2.1278376478713238e-08,
+    "mean_X": 0.8083737802345168,
+    "mean_ZZ": -0.4601316735683114,
+    "runtime_seconds": 9.515318299992941
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 1.4,
+    "energy": -31.50295667325289,
+    "state_norm": 1.0,
+    "residual_norm": 1.769054580099484e-09,
+    "mean_X": 0.8658600900891871,
+    "mean_ZZ": -0.3820460079345076,
+    "runtime_seconds": 10.953683499945328
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 1.6,
+    "energy": -35.04007285382404,
+    "state_norm": 0.9999999999999999,
+    "residual_norm": 3.229931150721456e-08,
+    "mean_X": 0.9000690161916307,
+    "mean_ZZ": -0.3283086492469417,
+    "runtime_seconds": 8.098740399931557
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 1.8,
+    "energy": -38.68790829796734,
+    "state_norm": 0.9999999999999999,
+    "residual_norm": 8.33479095007295e-09,
+    "mean_X": 0.9223957960042745,
+    "mean_ZZ": -0.28850840220070667,
+    "runtime_seconds": 8.816498500062153
+  },
+  {
+    "num_spins": 20,
+    "coupling_J": 1.0,
+    "transverse_field_h": 2.0,
+    "energy": -42.41020731426994,
+    "state_norm": 1.0,
+    "residual_norm": 2.261738923453495e-09,
+    "mean_X": 0.9378745580253541,
+    "mean_ZZ": -0.2576434206976752,
+    "runtime_seconds": 9.392421600059606
+  }
+]
