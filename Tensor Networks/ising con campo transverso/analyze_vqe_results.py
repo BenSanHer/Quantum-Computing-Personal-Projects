@@ -29,6 +29,52 @@ def vqe_vector_little_endian(state: torch.Tensor) -> torch.Tensor:
     return state.permute(axes).reshape(-1).contiguous()
 
 
+def global_x_flip_indices(num_spins: int, size: int) -> np.ndarray:
+    """Basis indices produced by applying P_X = product_i X_i."""
+
+    if size != 2**num_spins:
+        raise ValueError("The state size must be 2**num_spins.")
+    return np.arange(size, dtype=np.int64) ^ (size - 1)
+
+
+def parity_projected_fidelity(
+    target_state: np.ndarray,
+    state: np.ndarray,
+    sector: int,
+) -> float:
+    """Fidelity with target after normalizing the +/- parity projection."""
+
+    if sector not in (-1, 1):
+        raise ValueError("sector must be +1 or -1.")
+    state = np.asarray(state, dtype=np.complex128)
+    target_state = np.asarray(target_state, dtype=np.complex128)
+    flip = global_x_flip_indices(
+        int(round(np.log2(state.size))), state.size
+    )
+    projected = state + sector * state[flip]
+    projected_norm = np.linalg.norm(projected)
+    if projected_norm < 1e-12:
+        return 0.0
+    projected /= projected_norm
+    return float(abs(np.vdot(target_state, projected)) ** 2)
+
+
+def parity_projected_state(state: np.ndarray, sector: int) -> np.ndarray:
+    """Return a normalized state in the requested global-X parity sector."""
+
+    if sector not in (-1, 1):
+        raise ValueError("sector must be +1 or -1.")
+    state = np.asarray(state, dtype=np.complex128)
+    flip = global_x_flip_indices(
+        int(round(np.log2(state.size))), state.size
+    )
+    projected = state + sector * state[flip]
+    projected_norm = np.linalg.norm(projected)
+    if projected_norm < 1e-12:
+        raise ValueError("The requested parity projection has negligible norm.")
+    return projected / projected_norm
+
+
 def vqe_observables(
     state: torch.Tensor,
     num_spins: int,
@@ -58,6 +104,10 @@ def vqe_observables(
             for spin in range(num_spins)
         ]
     )
+    global_flip = torch.arange(
+        vector.numel(), device=vector.device, dtype=torch.int64
+    ) ^ (vector.numel() - 1)
+    parity_x = torch.real(torch.vdot(vector, vector[global_flip]))
     magnetization_per_basis = z_matrix.sum(dim=0) / num_spins
     zz_by_distance = [
         torch.diagonal(correlation_matrix, offset=distance).mean()
@@ -82,6 +132,10 @@ def vqe_observables(
         "M_z_squared": float(
             torch.sum(probabilities * magnetization_per_basis.square()).detach().cpu()
         ),
+        "parity_X": float(parity_x.detach().cpu()),
+        "parity_variance": float((1.0 - parity_x.square()).detach().cpu()),
+        "parity_plus_weight": float(((1.0 + parity_x) / 2.0).detach().cpu()),
+        "parity_minus_weight": float(((1.0 - parity_x) / 2.0).detach().cpu()),
         "mean_ZZ_nearest": float(
             torch.diagonal(correlation_matrix, offset=1).mean().detach().cpu()
         ),
@@ -120,6 +174,8 @@ def ed_observables(
     x_expectations = np.asarray(
         [np.dot(state, state[basis ^ (1 << spin)]) for spin in range(num_spins)]
     )
+    global_flip = global_x_flip_indices(num_spins, state.size)
+    parity_x = float(np.real(np.vdot(state, state[global_flip])))
     magnetization_per_basis = z_matrix.sum(axis=0) / num_spins
     zz_by_distance = [
         np.diagonal(correlation_matrix, offset=distance).mean()
@@ -140,6 +196,10 @@ def ed_observables(
         "M_z": float(z_expectations.mean()),
         "abs_M_z": float(np.dot(probabilities, np.abs(magnetization_per_basis))),
         "M_z_squared": float(np.dot(probabilities, magnetization_per_basis**2)),
+        "parity_X": parity_x,
+        "parity_variance": float(1.0 - parity_x**2),
+        "parity_plus_weight": float((1.0 + parity_x) / 2.0),
+        "parity_minus_weight": float((1.0 - parity_x) / 2.0),
         "mean_ZZ_nearest": float(np.diagonal(correlation_matrix, offset=1).mean()),
         "zz_correlation_by_distance": [float(value) for value in zz_by_distance],
         "connected_zz_by_distance": [float(value) for value in connected_by_distance],
@@ -191,6 +251,17 @@ def analyze_vqe_results(
             ed_state, num_spins, coupling, field, z_matrix_numpy
         )
         fidelity = float(abs(np.vdot(ed_state, vqe_vector)) ** 2)
+        ed_even_state = parity_projected_state(ed_state, sector=1)
+        vqe_even_fidelity = parity_projected_fidelity(
+            ed_even_state, vqe_vector, sector=1
+        )
+        vqe_odd_fidelity = parity_projected_fidelity(
+            ed_state, vqe_vector, sector=-1
+        )
+        fidelity_with_even_ed = float(abs(np.vdot(ed_even_state, vqe_vector)) ** 2)
+        fidelity_plus_against_raw_ed = parity_projected_fidelity(
+            ed_state, vqe_vector, sector=1
+        )
         ed_energy = float(ed_metadata[field_key]["energy"])
         reconstructed_energy = float(vqe_values["energy_reconstructed"])
         row: dict[str, Any] = {
@@ -204,6 +275,11 @@ def analyze_vqe_results(
             "energy_error_vs_ed": reconstructed_energy - ed_energy,
             "absolute_energy_error_vs_ed": abs(reconstructed_energy - ed_energy),
             "fidelity_with_ed": fidelity,
+            "fidelity_with_even_ed_reference": fidelity_with_even_ed,
+            "fidelity_after_even_projection": vqe_even_fidelity,
+            "fidelity_after_even_projection_against_raw_ed": fidelity_plus_against_raw_ed,
+            "fidelity_after_odd_projection": vqe_odd_fidelity,
+            "ed_even_projection_weight": float(ed_values["parity_plus_weight"]),
             "vqe": vqe_values,
             "ed": ed_values,
         }
